@@ -124,16 +124,16 @@ class OlympicsFrame extends JFrame{
                     }
                 }
 
-                ranks.setBounds(this.getWidth(), this.getY(), 400, 400);
-                ranks.setSize(400, 400);
+                ranks.add(panel1);
+                ranks.add(panel2);
+
+                ranks.setBounds(this.getWidth(), this.getY(), 600, 400);
+                ranks.setSize(600, 400);
                 ranks.setVisible(true);
             });
         }
         //panel2.add(showRank);
         Arrays.sort(finalScores);
-
-        this.add(panel1);
-        this.add(panel2);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 800);
