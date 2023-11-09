@@ -2,8 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 
 public class YourName_No_A3 {
     public static void main(String[] args) {
@@ -57,8 +56,8 @@ class Olympics{
 class OlympicsFrame extends JFrame{
     private JButton[] jbArray = new JButton[12];
     private Icon[] countryflags = new Icon[12];
-    private ArrayList<Olympics> alist;
-    //double[] finalScores;
+    private ArrayList<Olympics> alist = new ArrayList<>(12);
+    double[] finalScores = new double[12];
 
     OlympicsFrame(String[] names){
         super("Olympics 2023");
@@ -67,6 +66,7 @@ class OlympicsFrame extends JFrame{
         for(int i = 0; i < 12; i++){
             Olympics olympicTeam = new Olympics(names[i]);
             ConstructAList(olympicTeam);
+            finalScores[i] = alist.get(i).totalScores();
 
             ImageIcon iicon = new ImageIcon(Objects.requireNonNull(getClass().getResource(names[i] + ".jpg")));
             Image img = iicon.getImage();
@@ -80,6 +80,7 @@ class OlympicsFrame extends JFrame{
 
             this.add(jbArray[i]);
         }
+        Arrays.sort(finalScores);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(500, 500);
@@ -110,7 +111,8 @@ class OlympicsFrame extends JFrame{
     //Function to get rank
     private int getRank(double[] scoreArray, double d){
 
+        int rank = Arrays.binarySearch(finalScores, d);
 
-        return 0;
+        return rank + 1;
     }
 }
