@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class YourName_No_A3 {
     public static void main(String[] args) {
@@ -21,7 +22,9 @@ class Olympics{
 
 class OlympicsFrame extends JFrame{
     String[] countrynames = {"USA", "SPAIN", "CHINA", "JAPAN", "ITALY", "GERMANY", "FRANCE", "BRAZIL", "NETHERLAND", "POLAND", "RUSSIA", "UKRAINE"};
+
     private JButton[] jbArray = new JButton[12];
+    private Icon[] countryflags = new Icon[12];
     private ArrayList<Olympics> alist;
 
     OlympicsFrame(){
@@ -29,8 +32,13 @@ class OlympicsFrame extends JFrame{
         this.setLayout(new GridLayout(4, 3));
 
         for(int i = 0; i < 12; i++){
-            jbArray[i] = new JButton();
-            jbArray[i].setText(countrynames[i]);
+            ImageIcon iicon = new ImageIcon(Objects.requireNonNull(getClass().getResource(countrynames[i] + ".jpg")));
+            Image img = iicon.getImage();
+            Image newimg = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+            countryflags[i] = new ImageIcon(newimg);
+
+            jbArray[i] = new JButton(countrynames[i], countryflags[i]);
+
             this.add(jbArray[i]);
         }
 
