@@ -68,7 +68,6 @@ class OlympicsFrame extends JFrame{
     JPanel panel2 = new JPanel();
 
     private JButton[] jbArray = new JButton[12];
-    private JButton showRank = new JButton("Show ranks");
     private Icon[] countryflags = new Icon[12];
     private ArrayList<Olympics> alist = new ArrayList<>(12);
     double[] finalScores = new double[12];
@@ -76,10 +75,7 @@ class OlympicsFrame extends JFrame{
     //Constructor
     OlympicsFrame(String[] names){
         super("Olympics 2023");
-        this.setLayout(new  BorderLayout());
-
-        panel1.setLayout(new GridLayout(4, 3));
-        panel2.setLayout(new FlowLayout());
+        this.setLayout(new GridLayout(4, 3));
 
         for(int i = 0; i < 12; i++){
             Olympics olympicTeam = new Olympics(names[i]);
@@ -93,36 +89,54 @@ class OlympicsFrame extends JFrame{
 
             jbArray[i] = new JButton(names[i], countryflags[i]);
 
+            this.add(jbArray[i]);
+
             final int in = i;
             //Event handling
-            jbArray[i].addActionListener(e -> {jbArray[in].setText(names[in] + " ==> Rank: " + getRank(alist.get(in).getScoreArray(), alist.get(in).totalScores()));});
+            jbArray[i].addActionListener(e -> {
+                jbArray[in].setText(names[in] + " ==> Rank: " + getRank(alist.get(in).getScoreArray(), alist.get(in).totalScores()));
 
-            panel1.add(jbArray[i]);
+                JFrame ranks = new JFrame();
+                ranks.setLayout(new FlowLayout());
+
+                JPanel panel1 = new JPanel();
+                JPanel panel2 = new JPanel();
+
+                panel1.setLayout(new FlowLayout());
+                panel2.setLayout(new GridLayout(13, 1));
+
+                ImageIcon ii = new ImageIcon(Objects.requireNonNull(getClass().getResource("Trophy.jpg")));
+
+                panel1.add(new JLabel(ii));
+                panel2.add(new JLabel("Final Rankings: "));
+                for(int x = 0; x < 12; x++){
+                    //Arranging the array in descending order
+                    Arrays.sort(finalScores);
+                    Double[] reversedFinalScores = Arrays.stream(finalScores).boxed().toArray(Double[]::new);
+                    Arrays.sort(reversedFinalScores, Collections.reverseOrder());
+
+                    //Adding elements of aList according to the descending scores
+                    for(int y = 0; y < 12; y++){
+                        if(reversedFinalScores[x] == alist.get(y).totalScores()){
+                            panel2.add(new JLabel("Rank " + (x+1) + ":  " + getCountry(alist, y) + "(" + getScores(alist, alist.get(y).getName()) + ")"));
+
+                        }
+                    }
+                }
+
+                ranks.setBounds(this.getWidth(), this.getY(), 400, 400);
+                ranks.setSize(400, 400);
+                ranks.setVisible(true);
+            });
         }
-
-        showRank.addActionListener(e -> {
-            JFrame ranks = new JFrame();
-            ranks.setLayout(new GridLayout(12, 2));
-
-            for(int i = 0; i < 12; i++){
-                    JLabel x = new JLabel(getCountry(alist, i));
-                    JLabel y = new JLabel(" " + getRank(alist.get(i).getScoreArray(), alist.get(i).totalScores()));
-
-                    ranks.add(x);
-                    ranks.add(y);
-            }
-
-            ranks.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            ranks.setSize(500, 500);
-            ranks.setVisible(true);
-        });
-        panel2.add(showRank);
+        //panel2.add(showRank);
         Arrays.sort(finalScores);
 
-        this.add(panel1, BorderLayout.NORTH);
-        this.add(panel2, BorderLayout.SOUTH);
+        this.add(panel1);
+        this.add(panel2);
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600, 500);
+        this.setSize(600, 800);
         this.setVisible(true);
     }
 
