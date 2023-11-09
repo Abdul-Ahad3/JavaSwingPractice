@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class YourName_No_A3 {
@@ -6,6 +7,7 @@ public class YourName_No_A3 {
         System.out.println("Hello world!");
 
         Olympics o = new Olympics();
+        OlympicsFrame of = new OlympicsFrame();
     }
 }
 
@@ -14,22 +16,26 @@ class Olympics{
     private String country;
     private double[] score;
 
-    OlympicsFrame of = new OlympicsFrame();
+
 }
 
 class OlympicsFrame extends JFrame{
-    private JFrame frame = new JFrame("Olympics 2023");
-    private JButton[] jbArray;
+    String[] countrynames = {"USA", "SPAIN", "CHINA", "JAPAN", "ITALY", "GERMANY", "FRANCE", "BRAZIL", "NETHERLAND", "POLAND", "RUSSIA", "UKRAINE"};
+    private JButton[] jbArray = new JButton[12];
     private ArrayList<Olympics> alist;
 
     OlympicsFrame(){
+        super("Olympics 2023");
+        this.setLayout(new GridLayout(4, 3));
+
         for(int i = 0; i < 12; i++){
             jbArray[i] = new JButton();
-            frame.add(jbArray[i]);
+            jbArray[i].setText(countrynames[i]);
+            this.add(jbArray[i]);
         }
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setSize(500, 500);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(500, 500);
+        this.setVisible(true);
     }
 }
