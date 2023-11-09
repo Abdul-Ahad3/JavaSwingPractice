@@ -64,7 +64,11 @@ class Olympics{
 
 //Olympic GUI class
 class OlympicsFrame extends JFrame{
+    JPanel panel1 = new JPanel();
+    JPanel panel2 = new JPanel();
+
     private JButton[] jbArray = new JButton[12];
+    private JButton showRank = new JButton("Show ranks");
     private Icon[] countryflags = new Icon[12];
     private ArrayList<Olympics> alist = new ArrayList<>(12);
     double[] finalScores = new double[12];
@@ -72,7 +76,10 @@ class OlympicsFrame extends JFrame{
     //Constructor
     OlympicsFrame(String[] names){
         super("Olympics 2023");
-        this.setLayout(new GridLayout(4, 3));
+        this.setLayout(new  BorderLayout());
+
+        panel1.setLayout(new GridLayout(4, 3));
+        panel2.setLayout(new FlowLayout());
 
         for(int i = 0; i < 12; i++){
             Olympics olympicTeam = new Olympics(names[i]);
@@ -90,12 +97,32 @@ class OlympicsFrame extends JFrame{
             //Event handling
             jbArray[i].addActionListener(e -> {jbArray[in].setText(names[in] + " ==> Rank: " + getRank(alist.get(in).getScoreArray(), alist.get(in).totalScores()));});
 
-            this.add(jbArray[i]);
+            panel1.add(jbArray[i]);
         }
+
+        showRank.addActionListener(e -> {
+            JFrame ranks = new JFrame();
+            ranks.setLayout(new GridLayout(12, 2));
+
+            for(int i = 0; i < 12; i++){
+                    JLabel x = new JLabel(getCountry(alist, i));
+                    JLabel y = new JLabel(" " + getRank(alist.get(i).getScoreArray(), alist.get(i).totalScores()));
+
+                    ranks.add(x);
+                    ranks.add(y);
+            }
+
+            ranks.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            ranks.setSize(500, 500);
+            ranks.setVisible(true);
+        });
+        panel2.add(showRank);
         Arrays.sort(finalScores);
 
+        this.add(panel1, BorderLayout.NORTH);
+        this.add(panel2, BorderLayout.SOUTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(500, 500);
+        this.setSize(600, 500);
         this.setVisible(true);
     }
 
