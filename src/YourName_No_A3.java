@@ -1,35 +1,41 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.*;
 
+//Main Class
 public class YourName_No_A3 {
     public static void main(String[] args) {
+        //Array for the names of countries participating
         String[] countrynames = {"USA", "SPAIN", "CHINA", "JAPAN", "ITALY", "GERMANY", "FRANCE", "BRAZIL", "NETHERLAND", "POLAND", "RUSSIA", "UKRAINE"};
 
+        //Main frame for the GUI
         OlympicsFrame of = new OlympicsFrame(countrynames);
     }
 }
 
+//Class for handling backend
 class Olympics{
+    //Private variables
     private int NO = 5, rank;
     private String country;
     private double[] score = new double[NO];
 
+    //Constructor
     Olympics(String name){
         country = name;
         processScores();
+        set(rank);
+
     }
 
-    //Function to generate random scores
+    //Method to generate random scores
     void processScores(){
         for(int i = 0; i < NO; i++){
             score[i] = (Math.random() * 100);
         }
     }
 
-    //Function to return the total scores of each country
+    //Method to return the total scores of each country
     double totalScores(){
         double s = 0;
         for(int i = 0; i < 5; i++){
@@ -39,26 +45,31 @@ class Olympics{
         return s;
     }
 
-    //Function to set the rank as per the scores
-    void set(int rank){}
+    //Method to set the rank as per the scores
+    void set(int rank){
+        rank = getRank();
 
-    //Function to return rank of a country
+        this.rank = rank;
+    }
+
+    //Method to return rank of a country
     int getRank(){return this.rank;}
 
-    //Function to get country name
+    //Method to get country name
     String getName(){return country;}
 
-    //Function to return the individual scores
+    //Method to return the individual scores
     double[] getScoreArray(){return score;}
 }
 
-//Olympic GUI
+//Olympic GUI class
 class OlympicsFrame extends JFrame{
     private JButton[] jbArray = new JButton[12];
     private Icon[] countryflags = new Icon[12];
     private ArrayList<Olympics> alist = new ArrayList<>(12);
     double[] finalScores = new double[12];
 
+    //Constructor
     OlympicsFrame(String[] names){
         super("Olympics 2023");
         this.setLayout(new GridLayout(4, 3));
@@ -76,6 +87,7 @@ class OlympicsFrame extends JFrame{
             jbArray[i] = new JButton(names[i], countryflags[i]);
 
             final int in = i;
+            //Event handling
             jbArray[i].addActionListener(e -> {jbArray[in].setText(names[in] + " ==> Rank: " + getRank(alist.get(in).getScoreArray(), alist.get(in).totalScores()));});
 
             this.add(jbArray[i]);
@@ -87,16 +99,17 @@ class OlympicsFrame extends JFrame{
         this.setVisible(true);
     }
 
-    //Function to add Olympic objects to the Arraylist
+    //Method to add Olympic objects to the Arraylist
     void ConstructAList(Olympics e){
         alist.add(e);
     }
 
+    //Method to get country name
     String getCountry(ArrayList<Olympics> a, int n){
         return a.get(n).getName();
     }
 
-    //Function to get the total score os a team
+    //Method to get the total score os a team
     double getScores(ArrayList<Olympics> a, String name){
         double score = 0;
         for(int i = 0; i < 12; i++){
@@ -108,7 +121,7 @@ class OlympicsFrame extends JFrame{
         return score;
     }
 
-    //Function to get rank
+    //Method to get rank
     private int getRank(double[] scoreArray, double d){
 
         int rank = Arrays.binarySearch(finalScores, d);
