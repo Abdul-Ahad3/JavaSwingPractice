@@ -106,8 +106,11 @@ class OlympicsFrame extends JFrame{
                 panel2.setLayout(new GridLayout(13, 1));
 
                 ImageIcon ii = new ImageIcon(Objects.requireNonNull(getClass().getResource("Trophy.jpg")));
+                Image im = ii.getImage();
+                Image ni = im.getScaledInstance(100, 150, java.awt.Image.SCALE_SMOOTH);
+                ImageIcon iic = new ImageIcon(ni);
 
-                panel1.add(new JLabel(ii));
+                panel1.add(new JLabel(iic));
                 panel2.add(new JLabel("Final Rankings: "));
                 for(int x = 0; x < 12; x++){
                     //Arranging the array in descending order
@@ -136,7 +139,7 @@ class OlympicsFrame extends JFrame{
         Arrays.sort(finalScores);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600, 800);
+        this.setSize(480, 640);
         this.setVisible(true);
     }
 
